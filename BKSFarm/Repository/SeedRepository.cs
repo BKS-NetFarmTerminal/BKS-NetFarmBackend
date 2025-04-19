@@ -11,9 +11,9 @@ namespace BKSFarm.api.Repository
     public class SeedRepository : ISeedRepository
     {
         private readonly DataContext _ctx;
-        public SeedRepository(DataContext dbcontext)
+        public SeedRepository(DataContext ctx)
         {
-            _ctx = dbcontext;
+            _ctx = ctx;
         }
 
         private async Task<bool> SeedExist(string seedType)

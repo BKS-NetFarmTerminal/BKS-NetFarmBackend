@@ -6,14 +6,14 @@ namespace BKSFarm.api.Interfaces
 {
     public interface IEggRepository
     {
-        public Task<Egg> CreateSeed(CreateEggDto newEgg);
+        public Task<Egg> CreateEgg(CreateEggDto newEgg);
 
-        public Task<Egg> UpdateSeed(Guid id, UpdateEggDto upadedEgg);
+        public Task<Egg> UpdateEgg(Guid id, UpdateEggDto upadedEgg);
 
-        public Task<bool> DeleteSeed(Guid id);
+        public Task<bool> DeleteEgg(Guid id);
 
-        public Task<Egg> GetSeedById(Guid id);
+        public Task<Egg> GetEGgById(Guid id);
 
-        public Task<List<Egg>> GetAllSeeds();
+        public Task<List<Egg>> GetAllEggs();
     }
 }
