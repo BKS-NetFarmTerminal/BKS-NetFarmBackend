@@ -15,6 +15,8 @@ namespace BKSFarm.Dto.Plant
 
         public int PlantStage { get; set; }
 
+        public string PlantType { get; set; }
+
         public long DateCreate { get; set; }
 
         public long DieTime { get; set; }
