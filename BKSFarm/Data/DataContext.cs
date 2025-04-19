@@ -23,5 +23,8 @@ namespace BKSFarm.api.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<UserSeed> UserSeeds { get; set; }
-    }
+		public DbSet<UserPlant> UserPlants { get; set; }
+		public DbSet<UserEgg> UserEggs { get; set; }
+		public DbSet<UserAnimal> UserAnimals { get; set; }
+	}
 }

@@ -4,15 +4,9 @@ namespace BKSFarm.api.Entities
 {
     public class Egg
     {
-        public Guid EggId { get; set; }
-
-        public string EggName { get; set; }
-
-        public string EggImageUrl { get; set; }
-
-        [ForeignKey("UserId")]
-        public Guid UserId { get; set; }
-
-        public User User { get; set; }
+        public Guid Id { get; set; }
+        public string Type { get; set; }
+        public string ImageUrl { get; set; }
+        public List<UserEgg> UserEgg { get; set; }
     }
 }

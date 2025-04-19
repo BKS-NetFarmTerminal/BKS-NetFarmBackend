@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ISeedRepository, SeedRepository>();
+//builder.Services.AddScoped<ISeedRepository, SeedRepository>();
 
 var app = builder.Build();
 

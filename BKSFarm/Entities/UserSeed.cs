@@ -4,15 +4,14 @@ namespace BKSFarm.api.Entities
 {
     public class UserSeed
     {
-        public Guid UserSeedId { get; set; }
-
-        [ForeignKey("UserId")]
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
         public Guid UserId { get; set; }
-
-        public User User { get; set; }
-
-        [ForeignKey("SeedId")]
+		[ForeignKey("UserId")]
+		public User User { get; set; }
         public Guid SeedId { get; set; }
-        public Seed Seed { get; set; } = null!;
+		[ForeignKey("SeedId")]
+		public Seed Seed { get; set; } 
     }
 }

@@ -2,10 +2,10 @@
 {
     public class Seed
     {
-        public Guid SeedId { get; set; }
+        public Guid Id { get; set; }
 
-        public string SeedName { get; set; }
-
-        public string SeedImageUrl { get; set; }
+        public string Type { get; set; }
+        public string ImageUrl { get; set; }
+        public List<UserSeed> UserSeed { get; set; }
     }
 }
