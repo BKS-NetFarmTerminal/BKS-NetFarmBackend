@@ -15,7 +15,5 @@ namespace BKSFarm.api.Interfaces
         public Task<Seed> GetSeedById(Guid id);
 
         public Task<List<Seed>> GetAllSeeds();
-
-        public Task<List<ShowUserSeedsDto>> ShowAllUserSeeds(Guid userId);
     }
 }

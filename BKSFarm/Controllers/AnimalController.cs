@@ -17,27 +17,71 @@ namespace BKSFarm.api.Controllers
 
 		[HttpGet]
 		[Route("getAnimals")]
-		public async Task<ActionResult<List<AnimalDto>>> GetAnimals()
+		public async Task<ActionResult<List<AnimalDto>>> GetAllAnimals()
 		{
-			try
+			var animals = await _animalRepository.GetAllAnimals();
+			if (animals == null)
 			{
-				var animals = await _animalRepository.GetAllAnimals();
-				if (animals == null)
-				{
-					return NotFound();
-				}
-				else
-				{
-					var animalsDto = animals.ConvertToDto();
-					return Ok(animalsDto);
-				}
+				return NotFound();
 			}
-			catch (Exception ex)
+			else
 			{
-				return StatusCode(StatusCodes.Status500InternalServerError,
-					"Ошибка получения данных из базы данных");
+				var animalsDto = animals.ConvertToDto();
+				return Ok(animalsDto);
 			}
+			
 
+		}
+
+		[HttpGet]
+		[Route("getAnimal/{id:Guid}")]
+		public async Task<ActionResult<AnimalDto>> GetAnimal(Guid id)
+		{
+			
+			var animal = await _animalRepository.GetAnimalById(id);
+			if (animal == null)
+			{
+				return NotFound();
+			}
+			else
+			{
+				var animalDto = animal.ConverToDto();
+				return Ok(animalDto);
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CreateAnimal([FromBody] CreateAnimalDto animalDto)
+		{
+			var newAnimal = await _animalRepository.CreateAnimal(animalDto);
+			if (newAnimal == null)
+			{
+				return NoContent();
+			}
+			return Ok(newAnimal);
+		}
+
+		[HttpPut]
+		public async Task<IActionResult> UpdateManufacturer(Guid id, UpdateAnimalDto animalDto)
+		{
+			
+			var updateAnimal = await _animalRepository.UpdateAnimal(id, animalDto);
+			if (updateAnimal == null)
+			{
+				return NoContent();
+			}
+			var response = await _animalRepository.GetAnimalById(updateAnimal.Id);
+			var result = response.ConverToDto();
+			return Ok(result);	
+		}
+
+		[HttpDelete]
+		public async Task<ActionResult<bool>> DeleteAnimal(Guid id)
+		{
+			
+			var animal = await _animalRepository.DeleteAnimal(id);
+			return animal;
+			
 		}
 	}
 }
