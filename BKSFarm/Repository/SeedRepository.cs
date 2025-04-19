@@ -36,6 +36,7 @@ namespace BKSFarm.api.Repository
                 };
                 if (seed != null)
                 {
+                    await _ctx.AddAsync(seed);
                     await _ctx.SaveChangesAsync();
                 }
                 return seed;

@@ -16,7 +16,7 @@ namespace BKSFarm.api.Repository
         }
         private async Task<bool> EggExist(string eggType)
         {
-            return await _ctx.Seeds.AnyAsync(c => c.Type == eggType);
+            return await _ctx.Eggs.AnyAsync(c => c.Type == eggType);
         }
         private async Task<bool> EggExist(Guid id)
         {
@@ -62,7 +62,7 @@ namespace BKSFarm.api.Repository
 
         public async Task<Egg> GetEGgById(Guid id)
         {
-            if (await EggExist(id))
+            if (!await EggExist(id))
             {
                 var egg = await _ctx.Eggs.FindAsync(id);
                 return egg;
@@ -77,6 +77,7 @@ namespace BKSFarm.api.Repository
             {
                 egg.Type = upadedEgg.Type;
                 egg.ImageUrl = upadedEgg.ImageUrl;
+                await _ctx.SaveChangesAsync();
                 return egg;
                
             }
