@@ -6,6 +6,5 @@
 
         public Task<string> CreateUserWithTocken(string Tockne);
 
-        public Task<string> CreateUserWithoutTocken();
     }
 }
