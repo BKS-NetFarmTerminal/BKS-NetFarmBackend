@@ -12,7 +12,7 @@ namespace BKSFarm.api.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task<CreateAndShowSeedDto> CreateSeed(CreateAndShowSeedDto newSeed)
+        public async Task<CreateSeedDto> CreateSeed(CreateSeedDto newSeed)
         {
             return null;
             UserSeed seed  = new UserSeed();

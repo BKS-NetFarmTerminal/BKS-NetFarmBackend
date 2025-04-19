@@ -17,4 +17,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BKSFarm.Dto\BKSFarm.Dto.csproj" />
+  </ItemGroup>
+
 </Project>

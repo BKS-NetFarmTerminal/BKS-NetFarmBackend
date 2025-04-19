@@ -8,17 +8,17 @@ namespace BKSFarm.api.Entities
 
         public string PlantName { get; set; }
 
-        public string PlanType { get; set; }
+        public string? PlanType { get; set; }
 
         public string PlantImageUrl { get; set; }
 
-        public string PlantStage {  get; set; }
+        public int PlantStage {  get; set; }
 
-        public int DateCreate { get; set; }
+        public long DateCreate { get; set; }
 
-        public int DieTime { get; set; }
+        public long DieTime { get; set; }
 
-        public int TimeToLvlUp { get; set; }
+        public long TimeToLvlUp { get; set; }
 
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }

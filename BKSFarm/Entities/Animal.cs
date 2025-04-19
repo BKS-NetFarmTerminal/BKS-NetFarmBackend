@@ -12,11 +12,11 @@ namespace BKSFarm.api.Entities
 
         public int AnimalStage { get; set; }
 
-        public int DateCreate { get; set; }
+        public long DateCreate { get; set; }
             
-        public int DieTime { get; set; }
+        public long DieTime { get; set; }
 
-        public int TimeToLvlUp { get; set; }
+        public long TimeToLvlUp { get; set; }
 
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }
