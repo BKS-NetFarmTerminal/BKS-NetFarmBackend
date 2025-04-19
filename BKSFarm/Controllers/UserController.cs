@@ -20,13 +20,7 @@ namespace BKSFarm.api.Controllers
         [HttpPost ("CreateUser")]
         public async Task<string> CreateUser(string userTocken)
         {
-            if (userTocken == null)
-            {
-                return await _userEggRepository.CreateUserWithoutTocken();
-            }
             return await _userEggRepository.CreateUserWithTocken(userTocken);
         }
-
-
     }
 }

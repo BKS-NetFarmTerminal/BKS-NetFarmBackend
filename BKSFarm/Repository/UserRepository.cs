@@ -34,19 +34,6 @@ namespace BKSFarm.api.Repository
             await _ctx.SaveChangesAsync();
             return user.Token;
         }
-        public async Task<string> CreateUserWithoutTocken()
-        {
-            var user = new User
-            {
-                UserId = Guid.NewGuid(),
-                Token = Guid.NewGuid().ToString(),
-                Login = "123"
-            };
-            await _ctx.Users.AddAsync(user);
-            await _ctx.SaveChangesAsync();
-            return user.Token;
-        }
-
         public async Task<bool> AddEggToUser(string userTocken, Guid eggId)
         {
             Guid? userId = await FindUserByTocken(userTocken);
