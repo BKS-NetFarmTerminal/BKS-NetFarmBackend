@@ -9,7 +9,7 @@ namespace BKSFarm.api.Entities
         public string Login { get; set; }
         public string Token { get; set; }
 
-        public int FieldCount { get; set; } = 6;
+        public int FieldCount { get; set; } = 9;
 
         public List<UserSeed> Seed { get; set; }
 
