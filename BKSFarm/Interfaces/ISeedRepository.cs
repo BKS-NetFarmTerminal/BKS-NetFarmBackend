@@ -9,7 +9,6 @@ namespace BKSFarm.api.Interfaces
 
         public Task<CreateSeedDto> AddSeedToUser(AddSeedToUserDto addSeed);
 
-        public Task<ShowPlantDto> PlantSeed(CreatePlantDto createPlant);
         public Task<List<ShowUserSeedsDto>> ShowAllUserSeeds(Guid userId);
     }
 }
