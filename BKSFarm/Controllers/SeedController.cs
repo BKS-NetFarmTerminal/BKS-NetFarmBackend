@@ -30,7 +30,11 @@ namespace BKSFarm.api.Controllers
         {
             return await _seedRepository.PlantSeed(createPlant);
         }
-
+        [HttpPost("ShowAllUserSeeds")]
+        public async Task<List<ShowUserSeedsDto>> ShowAllUserSeeds(Guid userId)
+        {
+            return await _seedRepository.ShowAllUserSeeds(userId);
+        }
 
     }
 }
