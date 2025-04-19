@@ -9,10 +9,7 @@ namespace BKSFarm.Dto.Plant
 {
     public class CreatePlantDto
     {
-		public string Name { get; set; }
-		public string ImageUrl { get; set; }
-		public int Stage { get; set; }
-		public long DateCreate { get; set; }
+		public string Type { get; set; }
 		public long DieTime { get; set; }
 		public long TimeToLvlUp { get; set; }
 	}

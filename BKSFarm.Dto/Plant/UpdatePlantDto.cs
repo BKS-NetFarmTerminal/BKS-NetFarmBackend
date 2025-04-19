@@ -8,8 +8,7 @@ namespace BKSFarm.Dto.Plant
 {
 	public class UpdatePlantDto
 	{
-		public string Name { get; set; }
-		public string ImageUrl { get; set; }
+		public string Type { get; set; }
 		public long DieTime { get; set; }
 		public long TimeToLvlUp { get; set; }
 	}
