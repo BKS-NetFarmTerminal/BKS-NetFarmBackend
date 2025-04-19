@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace BKSFarm.Dto.Seed
 {
-    public class AddSeedToUserDto
+    public class UpadateSeedDto
     {
-        public Guid SeedId { get; set; }
-        public Guid UserId { get; set; }
+
+        public string Type { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

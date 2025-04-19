@@ -1,15 +1,20 @@
-﻿using BKSFarm.Dto.Plant;
+﻿using BKSFarm.api.Entities;
+using BKSFarm.Dto.Plant;
 using BKSFarm.Dto.Seed;
 
 namespace BKSFarm.api.Interfaces
 {
     public interface ISeedRepository
     {
-        public Task<CreateSeedDto> CreateSeed(CreateSeedDto newSeed);
+        public Task<Seed> CreateSeed(CreateSeedDto newSeed);
 
-        public Task<CreateSeedDto> AddSeedToUser(AddSeedToUserDto addSeed);
+        public Task<Seed> UpdateSeed(Guid id , UpadateSeedDto upadedSeed);
 
-        public Task<ShowPlantDto> PlantSeed(CreatePlantDto createPlant);
-        public Task<List<ShowUserSeedsDto>> ShowAllUserSeeds(Guid userId);
+        public Task<bool> DeleteSeed(Guid id);
+
+        public Task<Seed> GetSeedById(Guid id);
+
+        public Task<List<Seed>> GetAllSeeds();
+
     }
 }
