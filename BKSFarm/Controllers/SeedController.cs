@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BKSFarm.Dto.Seed;
+using BKSFarm.Dto.Plant;
 
 namespace BKSFarm.api.Controllers
 {
@@ -9,17 +10,27 @@ namespace BKSFarm.api.Controllers
     [ApiController]
     public class SeedController : ControllerBase
     {
-       private readonly IPlantRepository _pantRepository;
-        public SeedController(IPlantRepository plantRepository)
+       private readonly ISeedRepository _seedRepository;
+        public SeedController(ISeedRepository seedRepository)
         {
-            _pantRepository = plantRepository;
+            _seedRepository = seedRepository;
         }
-        [HttpPost]
-        [Route("CreateSeed")]
-        [HttpPost("create")] // or [HttpPost] if this is the only action
-        public async Task<ActionResult<CreateSeedDto>> CreateSeed()
+        [HttpPost("create")] 
+        public async Task<ActionResult<CreateSeedDto>> CreateSeed(CreateSeedDto newSeed)
         {
-            return null;
+            return await _seedRepository.CreateSeed(newSeed);
         }
+        [HttpPost("Add")]
+        public async Task<CreateSeedDto> AddSeedToUser(AddSeedToUserDto addSeed)
+        {
+            return await _seedRepository.AddSeedToUser(addSeed);
+        }
+        [HttpPost("PlantSeed")]
+        public async Task<ShowPlantDto> PlantSeed(CreatePlantDto createPlant)
+        {
+            return await _seedRepository.PlantSeed(createPlant);
+        }
+
+
     }
 }

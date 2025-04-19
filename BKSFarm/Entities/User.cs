@@ -10,7 +10,7 @@ namespace BKSFarm.api.Entities
 
         public int FieldCount { get; set; }
 
-        public List<UserSeed> Seeds { get; set; }
+        public List<UserSeed> UserSeed { get; set; }
 
         public List<Plant> Plants { get; set; }
 

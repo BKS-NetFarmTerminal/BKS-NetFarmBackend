@@ -4,10 +4,11 @@ using BKSFarm.Dto.Seed;
 using BKSFarm.Dto.Plant;
 
 using Microsoft.EntityFrameworkCore;
+using BKSFarm.api.Interfaces;
 
 namespace BKSFarm.api.Repository
 {
-    public class SeedRepository
+    public class SeedRepository : ISeedRepository
     {
         private readonly DataContext _dbcontext;
         public SeedRepository(DataContext dbcontext)
@@ -34,7 +35,7 @@ namespace BKSFarm.api.Repository
 
             if (seed == null || user == null)
             {
-                Results.NotFound("Пользователя с таким Id нет");
+                Results.NotFound("Пользователя с таким Id нет или растения стаким Id нет");
                 return null;
             }
             var UserSeed = new UserSeed() 
@@ -86,6 +87,26 @@ namespace BKSFarm.api.Repository
                 TimeToLvlUp = newPlant.TimeToLvlUp,
                 PlantStage = 0
             };
+        }
+        public async Task<List<ShowUserSeedsDto>> ShowAllUserSeeds(Guid userId)
+        {
+            var user = await _dbcontext.Users
+                   .Include(u => u.UserSeed) 
+                   .ThenInclude(us => us.Seed) 
+                   .FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                Results.NotFound("Пользователя с таким Id нет");
+                return null;
+            }
+            var showUserSeeds = user.UserSeed.Select(us => new ShowUserSeedsDto
+            {
+                SeedName = us.Seed.SeedName,
+                SeedImageUrl = us.Seed.SeedImageUrl
+            }).ToList();
+
+            return showUserSeeds;
+
         }
     }
 }

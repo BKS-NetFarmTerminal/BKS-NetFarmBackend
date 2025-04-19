@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BKSFarm.api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250418215746_Initial2")]
-    partial class Initial2
+    [Migration("20250419001223_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,14 +42,14 @@ namespace BKSFarm.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("DateCreate")
-                        .HasColumnType("integer");
+                    b.Property<long>("DateCreate")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("DieTime")
-                        .HasColumnType("integer");
+                    b.Property<long>("DieTime")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("TimeToLvlUp")
-                        .HasColumnType("integer");
+                    b.Property<long>("TimeToLvlUp")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -91,14 +91,13 @@ namespace BKSFarm.api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("DateCreate")
-                        .HasColumnType("integer");
+                    b.Property<long>("DateCreate")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("DieTime")
-                        .HasColumnType("integer");
+                    b.Property<long>("DieTime")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("PlanType")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PlantImageUrl")
@@ -109,12 +108,11 @@ namespace BKSFarm.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PlantStage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("TimeToLvlUp")
+                    b.Property<int>("PlantStage")
                         .HasColumnType("integer");
+
+                    b.Property<long>("TimeToLvlUp")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -140,12 +138,7 @@ namespace BKSFarm.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("SeedId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Seeds");
                 });
@@ -165,7 +158,28 @@ namespace BKSFarm.api.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("BKSFarm.api.Entities.UserSeed", b =>
+                {
+                    b.Property<Guid>("UserSeedId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SeedId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserSeedId");
+
+                    b.HasIndex("SeedId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserSeeds");
                 });
 
             modelBuilder.Entity("BKSFarm.api.Entities.Animal", b =>
@@ -201,13 +215,21 @@ namespace BKSFarm.api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BKSFarm.api.Entities.Seed", b =>
+            modelBuilder.Entity("BKSFarm.api.Entities.UserSeed", b =>
                 {
+                    b.HasOne("BKSFarm.api.Entities.Seed", "Seed")
+                        .WithMany()
+                        .HasForeignKey("SeedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BKSFarm.api.Entities.User", "User")
                         .WithMany("Seeds")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Seed");
 
                     b.Navigation("User");
                 });
