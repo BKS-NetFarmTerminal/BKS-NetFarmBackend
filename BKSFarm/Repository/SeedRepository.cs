@@ -8,105 +8,88 @@ using BKSFarm.api.Interfaces;
 
 namespace BKSFarm.api.Repository
 {
-    public class SeedRepository /*: ISeedRepository*/
+    public class SeedRepository : ISeedRepository
     {
-        private readonly DataContext _dbcontext;
-        public SeedRepository(DataContext dbcontext)
+        private readonly DataContext _ctx;
+        public SeedRepository(DataContext ctx)
         {
-            _dbcontext = dbcontext;
+            _ctx = ctx;
         }
-        //public async Task<CreateSeedDto> CreateSeed(CreateSeedDto newSeed)
-        //{
-        //    Seed seed = new Seed()
-        //    {
-        //        SeedId = Guid.NewGuid(),
-        //        SeedName = newSeed.Name,
-        //        SeedImageUrl = newSeed.ImageUrl,
-        //    };
-        //    await _dbcontext.Seeds.AddAsync(seed);
-        //    await _dbcontext.SaveChangesAsync();
-        //    return newSeed;
 
-        //}
-        //public async Task<CreateSeedDto> AddSeedToUser(AddSeedToUserDto addSeed)
-        //{
-        //    var user = await _dbcontext.Users.FindAsync(addSeed.UserId);
-        //    var seed = await _dbcontext.Seeds.FindAsync (addSeed.SeedId);
+        private async Task<bool> SeedExist(string seedType)
+        {
+            return await _ctx.Seeds.AnyAsync(c => c.Type == seedType);
+        }
+        private async Task<bool> SeedExist(Guid id)
+        {
+            return await _ctx.Seeds.AnyAsync(c => c.Id == id);
+        }
+        public async Task<Seed> CreateSeed(CreateSeedDto newSeed)
+        {
+            if (await SeedExist(newSeed.Type) == false)
+            {
+                var seed = new Seed()
+                {
+                    Id = Guid.NewGuid(),
+                    ImageUrl = newSeed.ImageUrl,
+                    Type = newSeed.Type,
+                };
+                if (seed != null)
+                {
+                    await _ctx.SaveChangesAsync();
+                }
+                return seed;
+            }
+            return null;
+        }
 
-        //    if (seed == null || user == null)
-        //    {
-        //        Results.NotFound("Пользователя с таким Id нет или растения стаким Id нет");
-        //        return null;
-        //    }
-        //    var UserSeed = new UserSeed() 
-        //    { 
-        //        User = user,
-        //        UserId = user.UserId,
-        //        Seed = seed,
-        //        SeedId = seed.SeedId,
-        //        UserSeedId = Guid.NewGuid(),
-        //    };
-        //    await _dbcontext.UserSeeds.AddAsync(UserSeed);
-        //    await _dbcontext.SaveChangesAsync();
-        //    return  new CreateSeedDto()
-        //    {
-        //        Name = seed.SeedName,
-        //        ImageUrl = seed.SeedImageUrl,
-        //    };
-        //}
-        //public async Task<ShowPlantDto> PlantSeed(CreatePlantDto createPlant)
-        //{
-        //    var user = await _dbcontext.Users.FindAsync (createPlant.UserId);
-        //    if (user == null)
-        //    {
-        //        Results.NotFound("Пользователя с таким Id нет");
-        //        return null;
-        //    }
-        //    long nowUnix = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
-        //    var newPlant = new Plant()
-        //    {
-        //        PlantId = Guid.NewGuid(),
-        //        PlantName = createPlant.PlantName,
-        //        PlantImageUrl = createPlant.PlantImageUrl,
-        //        PlantStage = 0,
-        //        DateCreate = nowUnix,
-        //        DieTime = nowUnix + (4 * 60 * 60), 
-        //        TimeToLvlUp = nowUnix + (1 * 60 * 60),
-        //        PlanType = createPlant.PlantType,
-        //        User = user,
-        //        UserId = user.UserId
-        //    };
-        //    await _dbcontext.Plants.AddAsync(newPlant);
-        //    await _dbcontext.SaveChangesAsync();
-        //    return new ShowPlantDto()
-        //    {
-        //        PlantName = newPlant.PlantName,
-        //        PlantImageUrl = newPlant.PlantImageUrl,
-        //        DateCreate = newPlant.DateCreate,
-        //        DieTime = newPlant.DieTime,
-        //        TimeToLvlUp = newPlant.TimeToLvlUp,
-        //        PlantStage = 0
-        //    };
-        //}
-        //public async Task<List<ShowUserSeedsDto>> ShowAllUserSeeds(Guid userId)
-        //{
-        //    var user = await _dbcontext.Users
-        //           .Include(u => u.UserSeed) 
-        //           .ThenInclude(us => us.Seed) 
-        //           .FirstOrDefaultAsync(u => u.UserId == userId);
-        //    if (user == null)
-        //    {
-        //        Results.NotFound("Пользователя с таким Id нет");
-        //        return null;
-        //    }
-        //    var showUserSeeds = user.UserSeed.Select(us => new ShowUserSeedsDto
-        //    {
-        //        SeedName = us.Seed.SeedName,
-        //        SeedImageUrl = us.Seed.SeedImageUrl
-        //    }).ToList();
+        public async Task<bool> DeleteSeed(Guid id)
+        {
+            var seedToDelete = await _ctx.Seeds.FindAsync(id);
+            if (seedToDelete != null)
+            {
+                _ctx.Seeds.Remove(seedToDelete);
+                await _ctx.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
 
-        //    return showUserSeeds;
+        public async Task<Seed> GetSeedById(Guid id)
+        {
+            var seedToFind = await _ctx.Seeds.FindAsync(id);
+            if (seedToFind == null)
+            {
+                return null;
+            }
+            return seedToFind;
+        }
 
-        //}
+        public async Task<List<Seed>> GetAllSeeds()
+        {
+            var listOfSeeds = await _ctx.Seeds.ToListAsync();
+            if (listOfSeeds == null)
+            {
+                return null;
+            }
+            return listOfSeeds;
+        }
+
+        public async Task<Seed> UpdateSeed(Guid id, UpadateSeedDto upadedSeed)
+        {
+            var seedToUpdate = await _ctx.Seeds.FindAsync(id);
+            if (seedToUpdate == null)
+            {
+                return null;
+            }
+            seedToUpdate.Type = upadedSeed.Type;
+            seedToUpdate.ImageUrl = upadedSeed.ImageUrl;
+            await _ctx.SaveChangesAsync();
+            return seedToUpdate;
+        }
+
+        
+
+
     }
 }
