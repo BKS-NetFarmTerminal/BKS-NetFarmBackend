@@ -1,11 +1,13 @@
 ﻿using BKSFarm.api.Extentions.DtoConvertor;
 using BKSFarm.api.Interfaces;
 using BKSFarm.Dto.Seed;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BKSFarm.api.Controllers
 {
 	[Route("api/[controller]")]
+	[Authorize]
 	[ApiController]
 	public class SeedController : ControllerBase
 	{

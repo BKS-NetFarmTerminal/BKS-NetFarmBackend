@@ -1,11 +1,13 @@
 ﻿using BKSFarm.api.Extentions.DtoConvertor;
 using BKSFarm.api.Interfaces;
 using BKSFarm.Dto.Animal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BKSFarm.api.Controllers
 {
 	[Route("api/[controller]")]
+	[Authorize]
 	[ApiController]
 	public class AnimalController : ControllerBase
 	{
@@ -14,7 +16,7 @@ namespace BKSFarm.api.Controllers
 		{
 			_animalRepository = animalRepository;
 		}
-
+		
 		[HttpGet]
 		[Route("getAnimals")]
 		public async Task<ActionResult<List<AnimalDto>>> GetAllAnimals()

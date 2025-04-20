@@ -28,7 +28,6 @@ namespace BKSFarm.api.Repository
             {
                 UserId = Guid.NewGuid(),
                 Token = Tockne,   
-                Login = "123"
             };
             await _ctx.Users.AddAsync(user);
             await _ctx.SaveChangesAsync();
@@ -59,7 +58,6 @@ namespace BKSFarm.api.Repository
                 UserId = userId.Value,
                 EggId = eggId,
                 Type = egg.Type  
-
             };
 
             user.Eggs.Add(userEgg);
